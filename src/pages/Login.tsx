@@ -8,10 +8,10 @@ const Login = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const accessKey = urlParams.get('accessKey');
 
-    if (token) {
-      setAuthToken(token);
+    if (accessKey) {
+      setAuthToken(accessKey);
       navigate('/dashboard');
     }
   }, [navigate]);
