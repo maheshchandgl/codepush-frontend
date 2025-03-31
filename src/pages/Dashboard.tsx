@@ -1,27 +1,17 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { isAuthenticated, clearAuthToken } from '../utils/authUtils';
+import AppsManagement from '../components/AppsManagement';
+import DeploymentsManagement from '../components/DeploymentsManagement';
+import UsersManagement from '../components/UsersManagement';
+import AccessKeysManagement from '../components/AccessKeysManagement';
 
 const Dashboard = () => {
-  console.log('Dashboard component rendered');
-  const navigate = useNavigate();
-
-  // Redirect to login if not authenticated
-  if (!isAuthenticated()) {
-    navigate('/login');
-    return null;
-  }
-
-  const handleLogout = () => {
-    clearAuthToken();
-    navigate('/login');
-  };
-
   return (
     <div>
-      <h1>Welcome to the Dashboard</h1>
-      <p>You are successfully logged in.</p>
-      <button onClick={handleLogout}>Logout</button>
+      <h1>Dashboard</h1>
+      <AppsManagement />
+      <DeploymentsManagement appName="example-app" />
+      <UsersManagement appName="example-app" />
+      <AccessKeysManagement />
     </div>
   );
 };
