@@ -17,7 +17,7 @@ const Login = () => {
 
   const handleLogin = () => {
     const serverUrl = import.meta.env.VITE_SERVER_URL;
-    window.location.href = `${serverUrl}/auth/github`;
+    window.location.href = `${serverUrl}/auth/register/github`;
   };
 
   return (
