@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { isAuthenticated, clearAuthToken } from '../utils/authUtils';
 
 const Dashboard = () => {
+  console.log('Dashboard component rendered');
   const navigate = useNavigate();
 
   // Redirect to login if not authenticated
