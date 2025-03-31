@@ -1,4 +1,4 @@
-export const getGitHubAuthUrl = (): string => {
+export const getGitHubOAuthUrl = (): string => {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
-  return `${serverUrl}/auth/login/github`;
+  return `${serverUrl}/auth/github`;
 };

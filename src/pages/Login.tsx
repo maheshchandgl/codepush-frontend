@@ -1,31 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockGitHubOAuth } from '../services/mockAuthService';
 import { setAuthToken } from '../utils/authUtils';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    setLoading(true);
-    try {
-      const token = await mockGitHubOAuth();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
       setAuthToken(token);
       navigate('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [navigate]);
 
   return (
     <div>
       <h1>Login</h1>
-      <button onClick={handleLogin} disabled={loading}>
-        {loading ? 'Logging in...' : 'Login with GitHub'}
-      </button>
+      <button onClick={() => window.location.href = '/auth/github'}>Login with GitHub</button>
     </div>
   );
 };

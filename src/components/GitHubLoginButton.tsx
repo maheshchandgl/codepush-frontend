@@ -1,8 +1,8 @@
-import { getGitHubAuthUrl } from '../services/authService';
+import { getGitHubOAuthUrl } from '../services/authService';
 
 export const GitHubLoginButton = () => {
   const handleLogin = () => {
-    const authUrl = getGitHubAuthUrl();
+    const authUrl = getGitHubOAuthUrl();
     window.location.href = authUrl;
   };
 
