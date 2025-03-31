@@ -6,12 +6,14 @@ This is the frontend for the [CodePush Server](https://github.com/nmengual/code-
 - Integration with CodePush Server API
 - User-friendly interface for managing deployments
 - Material-UI (MUI) for modern and responsive UI components
+- GitHub OAuth login flow with reusable components and services
 
 ### Project Structure
 - `src/`: Contains the main application code.
-  - `pages/`: Contains page components like `Login` and `Dashboard`.
-  - `assets/`: Contains static assets like images.
-  - `utils/`: Contains utility functions grouped by functionality.
+  - `components/`: Reusable UI components like `GitHubLoginButton`.
+  - `pages/`: Page components like `Login` and `Dashboard`.
+  - `services/`: API-related logic, such as `authService` for authentication.
+  - `utils/`: Utility functions grouped by functionality.
 
 ### Setup
 1. Clone the repository.
