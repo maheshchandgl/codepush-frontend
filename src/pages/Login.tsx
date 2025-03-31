@@ -5,7 +5,6 @@ import { getGitHubOAuthUrl } from '../services/authService';
 
 const Login = () => {
   const navigate = useNavigate();
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const accessKey = urlParams.get('accessKey');

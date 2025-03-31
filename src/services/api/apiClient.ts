@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAuthToken } from '../../utils/authUtils';
 
 const API_BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -12,7 +13,7 @@ const apiClient = axios.create({
 
 // Add a request interceptor to include the access key in headers
 apiClient.interceptors.request.use((config) => {
-  const accessKey = localStorage.getItem('accessKey');
+  const accessKey = getAuthToken();
   if (accessKey) {
     config.headers['Authorization'] = `Bearer ${accessKey}`;
   }
