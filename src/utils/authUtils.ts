@@ -9,3 +9,7 @@ export const getAuthToken = (): string | null => {
 export const isAuthenticated = (): boolean => {
   return !!getAuthToken();
 };
+
+export const clearAuthToken = () => {
+  localStorage.removeItem('authToken');
+};

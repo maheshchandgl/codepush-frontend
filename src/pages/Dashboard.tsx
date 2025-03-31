@@ -1,11 +1,18 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { clearAuthToken } from '../utils/authUtils';
 
 const Dashboard = () => {
-  console.log('Dashboard component rendered.');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearAuthToken();
+    navigate('/login');
+  };
+
   return (
     <div>
       <h1>Welcome to the Dashboard</h1>
-      {/* Add dashboard content here */}
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
