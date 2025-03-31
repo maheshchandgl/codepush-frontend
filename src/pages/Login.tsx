@@ -7,17 +7,30 @@ const Login = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const accessKey = urlParams.get('access_key'); // Try getting access_key from URL
 
-    if (token) {
-      setAuthToken(token);
-      navigate('/dashboard');
+    if (accessKey) {
+      fetch(`${import.meta.env.VITE_SERVER_URL}/auth/exchange`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessKey }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.token) {
+            setAuthToken(data.token); // Store auth token
+            navigate('/dashboard');
+          } else {
+            console.error('Failed to exchange access key for token', data);
+          }
+        })
+        .catch((err) => console.error('Auth error:', err));
     }
   }, [navigate]);
 
   const handleLogin = () => {
     const serverUrl = import.meta.env.VITE_SERVER_URL;
-    window.location.href = `${serverUrl}/auth/register/github`;
+    window.location.href = `${serverUrl}/auth/login/github`;
   };
 
   return (
