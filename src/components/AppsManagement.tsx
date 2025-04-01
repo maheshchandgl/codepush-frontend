@@ -4,11 +4,11 @@ import {
   Box,
   Button,
   List,
-  ListItem,
-  ListItemText,
+  ListItemButton,
   TextField,
   Typography,
 } from '@mui/material';
+import GenericListItemContent from './GenericListItemContent';
 
 const AppsManagement = ({ onAppClick }) => {
   const [apps, setApps] = useState([]);
@@ -42,26 +42,9 @@ const AppsManagement = ({ onAppClick }) => {
       </Typography>
       <List>
         {apps.map((app) => (
-          <ListItem key={app.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <ListItemText
-              primary={
-                <Typography
-                  variant="body1"
-                  sx={{ cursor: 'pointer', color: 'blue' }}
-                  onClick={() => onAppClick(app.name)}
-                >
-                  {app.name}
-                </Typography>
-              }
-            />
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => handleDeleteApp(app.name)}
-            >
-              Delete
-            </Button>
-          </ListItem>
+          <ListItemButton key={app.name} onClick={() => onAppClick(app.name)}>
+            <GenericListItemContent primaryText={app.name} />
+          </ListItemButton>
         ))}
       </List>
       <Box sx={{ marginTop: 4 }}>
