@@ -7,25 +7,33 @@ import {
   List,
   ListItem,
   Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AppBar from '../components/AppBar';
-import GenericListItemContent from '../components/GenericListItemContent';
 
 const AppDetails = () => {
   const { appName } = useParams();
   const [deployments, setDeployments] = useState([]);
+  const [selectedDeployment, setSelectedDeployment] = useState(null);
 
   useEffect(() => {
     const loadDeployments = async () => {
       const response = await fetchDeployments(appName);
-      setDeployments(response.deployments || []); // Access the 'deployments' array from the API response
+      setDeployments(response.deployments || []);
+      if (response.deployments && response.deployments.length > 0) {
+        setSelectedDeployment(response.deployments[0]); // Default to the first deployment
+      }
     };
     loadDeployments();
   }, [appName]);
+
+  const handleDeploymentChange = (event, newDeploymentName) => {
+    if (newDeploymentName) {
+      const deployment = deployments.find((d) => d.name === newDeploymentName);
+      setSelectedDeployment(deployment);
+    }
+  };
 
   return (
     <div>
@@ -40,32 +48,36 @@ const AppDetails = () => {
         <Typography variant="h6" gutterBottom>
           Deployments
         </Typography>
-        <List>
+        <ToggleButtonGroup
+          value={selectedDeployment?.name || ''}
+          exclusive
+          onChange={handleDeploymentChange}
+          sx={{ marginBottom: 2 }}
+        >
           {deployments.map((deployment) => (
-            <ListItem key={deployment.name}>
-              <Accordion sx={{ width: '100%' }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <GenericListItemContent
-                    primaryText={deployment.name}
-                    secondaryText={`Key: ${deployment.key}`}
-                  />
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography variant="subtitle1">Current Package:</Typography>
-                  <pre>{JSON.stringify(deployment.package, null, 2)}</pre>
-                  <Divider sx={{ marginY: 2 }} />
-                  <Typography variant="subtitle1">Package History:</Typography>
-                  {deployment.packageHistory.map((pkg, index) => (
-                    <Box key={index} sx={{ marginBottom: 2 }}>
-                      <pre>{JSON.stringify(pkg, null, 2)}</pre>
-                      <Divider />
-                    </Box>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            </ListItem>
+            <ToggleButton key={deployment.name} value={deployment.name}>
+              {deployment.name}
+            </ToggleButton>
           ))}
-        </List>
+        </ToggleButtonGroup>
+        {selectedDeployment && (
+          <Box>
+            <Typography variant="subtitle1">Deployment: {selectedDeployment.name}</Typography>
+            <Typography variant="subtitle2">Key: {selectedDeployment.key}</Typography>
+            <Typography variant="subtitle2">Created Time: {new Date(selectedDeployment.createdTime).toLocaleString()}</Typography>
+            <Divider sx={{ marginY: 2 }} />
+            <Typography variant="subtitle1">Current Package:</Typography>
+            <pre>{JSON.stringify(selectedDeployment.package, null, 2)}</pre>
+            <Divider sx={{ marginY: 2 }} />
+            <Typography variant="subtitle1">Package History:</Typography>
+            {selectedDeployment.packageHistory.map((pkg, index) => (
+              <Box key={index} sx={{ marginBottom: 2 }}>
+                <pre>{JSON.stringify(pkg, null, 2)}</pre>
+                <Divider />
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
     </div>
   );
