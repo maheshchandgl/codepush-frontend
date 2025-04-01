@@ -7,10 +7,13 @@ import {
   List,
   ListItem,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AppBar from '../components/AppBar';
 import GenericListItemContent from '../components/GenericListItemContent';
-import AppInsights from '../components/AppInsights';
 
 const AppDetails = () => {
   const { appName } = useParams();
@@ -35,31 +38,34 @@ const AppDetails = () => {
           {appName}
         </Typography>
         <Typography variant="h6" gutterBottom>
-          Environments
-        </Typography>
-        <List>
-          <ListItem>
-            <GenericListItemContent primaryText="Staging" />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <GenericListItemContent primaryText="Production" />
-          </ListItem>
-        </List>
-        <Typography variant="h6" gutterBottom sx={{ marginTop: 4 }}>
           Deployments
         </Typography>
         <List>
           {deployments.map((deployment) => (
             <ListItem key={deployment.name}>
-              <GenericListItemContent
-                primaryText={deployment.name}
-                secondaryText={`Target Version: ${deployment.targetVersion || 'N/A'}`}
-              />
+              <Accordion sx={{ width: '100%' }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <GenericListItemContent
+                    primaryText={deployment.name}
+                    secondaryText={`Key: ${deployment.key}`}
+                  />
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="subtitle1">Current Package:</Typography>
+                  <pre>{JSON.stringify(deployment.package, null, 2)}</pre>
+                  <Divider sx={{ marginY: 2 }} />
+                  <Typography variant="subtitle1">Package History:</Typography>
+                  {deployment.packageHistory.map((pkg, index) => (
+                    <Box key={index} sx={{ marginBottom: 2 }}>
+                      <pre>{JSON.stringify(pkg, null, 2)}</pre>
+                      <Divider />
+                    </Box>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
             </ListItem>
           ))}
         </List>
-        <AppInsights appName={appName} />
       </Box>
     </div>
   );
