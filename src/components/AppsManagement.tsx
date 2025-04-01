@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { fetchApps, createApp, deleteApp } from '../services/api/appsApi';
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 const AppsManagement = ({ onAppClick }) => {
   const [apps, setApps] = useState([]);
@@ -27,41 +36,70 @@ const AppsManagement = ({ onAppClick }) => {
   };
 
   return (
-    <div>
-      <h2>Apps Management</h2>
-      <ul>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        Apps Management
+      </Typography>
+      <List>
         {apps.map((app) => (
-          <li key={app.name}>
-            <span onClick={() => onAppClick(app.name)} style={{ cursor: 'pointer', color: 'blue' }}>
-              {app.name}
-            </span>
-            <button onClick={() => handleDeleteApp(app.name)}>Delete</button>
-          </li>
+          <ListItem key={app.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <ListItemText
+              primary={
+                <Typography
+                  variant="body1"
+                  sx={{ cursor: 'pointer', color: 'blue' }}
+                  onClick={() => onAppClick(app.name)}
+                >
+                  {app.name}
+                </Typography>
+              }
+            />
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleDeleteApp(app.name)}
+            >
+              Delete
+            </Button>
+          </ListItem>
         ))}
-      </ul>
-      <div>
-        <h3>Create New App</h3>
-        <input
-          type="text"
-          placeholder="Name"
+      </List>
+      <Box sx={{ marginTop: 4 }}>
+        <Typography variant="h6">Create New App</Typography>
+        <TextField
+          label="Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           value={newApp.name}
           onChange={(e) => setNewApp({ ...newApp, name: e.target.value })}
         />
-        <input
-          type="text"
-          placeholder="OS"
+        <TextField
+          label="OS"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           value={newApp.os}
           onChange={(e) => setNewApp({ ...newApp, os: e.target.value })}
         />
-        <input
-          type="text"
-          placeholder="Platform"
+        <TextField
+          label="Platform"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           value={newApp.platform}
           onChange={(e) => setNewApp({ ...newApp, platform: e.target.value })}
         />
-        <button onClick={handleCreateApp}>Create App</button>
-      </div>
-    </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCreateApp}
+          sx={{ marginTop: 2 }}
+        >
+          Create App
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

@@ -14,3 +14,8 @@ Thank you for considering contributing to this project! Here are some guidelines
 
 ## Reporting Issues
 If you find a bug or have a feature request, please open an issue on GitHub with detailed information.
+
+### Guidelines for Library Installation
+
+- Before suggesting or installing any new library, always check the `package.json` file to see if the library is already included in the project dependencies.
+- If the library is already present, ensure to use the existing version and avoid redundant installations.
