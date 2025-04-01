@@ -6,10 +6,11 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
   Divider,
 } from '@mui/material';
 import AppBar from '../components/AppBar';
+import GenericListItemContent from '../components/GenericListItemContent';
+import AppInsights from '../components/AppInsights';
 
 const AppDetails = () => {
   const { appName } = useParams();
@@ -38,11 +39,11 @@ const AppDetails = () => {
         </Typography>
         <List>
           <ListItem>
-            <ListItemText primary="Staging" />
+            <GenericListItemContent primaryText="Staging" />
           </ListItem>
           <Divider />
           <ListItem>
-            <ListItemText primary="Production" />
+            <GenericListItemContent primaryText="Production" />
           </ListItem>
         </List>
         <Typography variant="h6" gutterBottom sx={{ marginTop: 4 }}>
@@ -51,13 +52,14 @@ const AppDetails = () => {
         <List>
           {deployments.map((deployment) => (
             <ListItem key={deployment.name}>
-              <ListItemText
-                primary={deployment.name}
-                secondary={`Target Version: ${deployment.targetVersion}`}
+              <GenericListItemContent
+                primaryText={deployment.name}
+                secondaryText={`Target Version: ${deployment.targetVersion || 'N/A'}`}
               />
             </ListItem>
           ))}
         </List>
+        <AppInsights appName={appName} />
       </Box>
     </div>
   );
