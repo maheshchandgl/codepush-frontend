@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppsManagement from '../components/AppsManagement';
+import AppBar from '../components/AppBar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -11,8 +12,10 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      <AppsManagement onAppClick={handleAppClick} />
+      <AppBar title="Dashboard" showBackButton={false} />
+      <div>
+        <AppsManagement onAppClick={handleAppClick} />
+      </div>
     </div>
   );
 };

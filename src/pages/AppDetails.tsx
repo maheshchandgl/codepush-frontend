@@ -9,6 +9,7 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
+import AppBar from '../components/AppBar';
 
 const AppDetails = () => {
   const { appName } = useParams();
@@ -23,39 +24,42 @@ const AppDetails = () => {
   }, [appName]);
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h4" gutterBottom>
-        App Details
-      </Typography>
-      <Typography variant="h5" gutterBottom>
-        {appName}
-      </Typography>
-      <Typography variant="h6" gutterBottom>
-        Environments
-      </Typography>
-      <List>
-        <ListItem>
-          <ListItemText primary="Staging" />
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText primary="Production" />
-        </ListItem>
-      </List>
-      <Typography variant="h6" gutterBottom sx={{ marginTop: 4 }}>
-        Deployments
-      </Typography>
-      <List>
-        {deployments.map((deployment) => (
-          <ListItem key={deployment.name}>
-            <ListItemText
-              primary={deployment.name}
-              secondary={`Target Version: ${deployment.targetVersion}`}
-            />
+    <div>
+      <AppBar title="App Details" />
+      <Box sx={{ padding: 2 }}>
+        <Typography variant="h4" gutterBottom>
+          App Details
+        </Typography>
+        <Typography variant="h5" gutterBottom>
+          {appName}
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          Environments
+        </Typography>
+        <List>
+          <ListItem>
+            <ListItemText primary="Staging" />
           </ListItem>
-        ))}
-      </List>
-    </Box>
+          <Divider />
+          <ListItem>
+            <ListItemText primary="Production" />
+          </ListItem>
+        </List>
+        <Typography variant="h6" gutterBottom sx={{ marginTop: 4 }}>
+          Deployments
+        </Typography>
+        <List>
+          {deployments.map((deployment) => (
+            <ListItem key={deployment.name}>
+              <ListItemText
+                primary={deployment.name}
+                secondary={`Target Version: ${deployment.targetVersion}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </div>
   );
 };
 
