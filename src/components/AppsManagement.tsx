@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { fetchApps, createApp, deleteApp } from '../services/api/appsApi';
 
-const AppsManagement = () => {
+const AppsManagement = ({ onAppClick }) => {
   const [apps, setApps] = useState([]);
   const [newApp, setNewApp] = useState({ name: '', os: '', platform: '' });
 
   useEffect(() => {
     const loadApps = async () => {
-      const appsData = await fetchApps();
-      setApps(appsData);
+      const response = await fetchApps();
+      setApps(response.apps); // Access the 'apps' array from the API response
     };
     loadApps();
   }, []);
@@ -16,14 +16,14 @@ const AppsManagement = () => {
   const handleCreateApp = async () => {
     await createApp(newApp.name, newApp.os, newApp.platform);
     setNewApp({ name: '', os: '', platform: '' });
-    const updatedApps = await fetchApps();
-    setApps(updatedApps);
+    const response = await fetchApps();
+    setApps(response.apps); // Update the state with the 'apps' array
   };
 
   const handleDeleteApp = async (appName) => {
     await deleteApp(appName);
-    const updatedApps = await fetchApps();
-    setApps(updatedApps);
+    const response = await fetchApps();
+    setApps(response.apps); // Update the state with the 'apps' array
   };
 
   return (
@@ -32,7 +32,10 @@ const AppsManagement = () => {
       <ul>
         {apps.map((app) => (
           <li key={app.name}>
-            {app.name} <button onClick={() => handleDeleteApp(app.name)}>Delete</button>
+            <span onClick={() => onAppClick(app.name)} style={{ cursor: 'pointer', color: 'blue' }}>
+              {app.name}
+            </span>
+            <button onClick={() => handleDeleteApp(app.name)}>Delete</button>
           </li>
         ))}
       </ul>

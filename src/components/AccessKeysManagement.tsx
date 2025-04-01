@@ -6,16 +6,16 @@ const AccessKeysManagement = () => {
 
   useEffect(() => {
     const loadAccessKeys = async () => {
-      const keysData = await fetchAccessKeys();
-      setAccessKeys(keysData);
+      const response = await fetchAccessKeys();
+      setAccessKeys(response.accessKeys || []); // Access the 'accessKeys' array from the API response
     };
     loadAccessKeys();
   }, []);
 
   const handleRemoveAccessKey = async (keyId) => {
     await removeAccessKey(keyId);
-    const updatedKeys = await fetchAccessKeys();
-    setAccessKeys(updatedKeys);
+    const response = await fetchAccessKeys();
+    setAccessKeys(response.accessKeys || []); // Update the state with the 'accessKeys' array
   };
 
   return (
