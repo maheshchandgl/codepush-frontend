@@ -10,7 +10,7 @@ import {
   Slider,
 } from '@mui/material';
 
-export const PackageDialog = ({
+export const GenerateCodePushDialog = ({
   open,
   onClose,
   rollout,
