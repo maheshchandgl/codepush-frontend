@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
-const DeploymentToggle = ({ deployments, selectedDeployment, onDeploymentChange }) => {
+export const DeploymentToggle = ({ deployments, selectedDeployment, onDeploymentChange }) => {
   return (
     <ToggleButtonGroup
       value={selectedDeployment?.name || ''}
@@ -17,5 +17,3 @@ const DeploymentToggle = ({ deployments, selectedDeployment, onDeploymentChange 
     </ToggleButtonGroup>
   );
 };
-
-export default DeploymentToggle;

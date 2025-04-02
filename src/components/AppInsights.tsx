@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAppInsights } from '../services/api/appInsightsApi';
 import { Box, Typography, CircularProgress } from '@mui/material';
 
-const AppInsights = ({ appName }) => {
+export const AppInsights = ({ appName }) => {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,5 +35,3 @@ const AppInsights = ({ appName }) => {
     </Box>
   );
 };
-
-export default AppInsights;

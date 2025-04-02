@@ -6,7 +6,7 @@ import {
   renameDeployment,
 } from '../services/api/deploymentsApi';
 
-const DeploymentsManagement = ({ appName }) => {
+export const DeploymentsManagement = ({ appName }) => {
   const [deployments, setDeployments] = useState([]);
   const [newDeployment, setNewDeployment] = useState('');
   const [renameData, setRenameData] = useState({ oldName: '', newName: '' });
@@ -72,5 +72,3 @@ const DeploymentsManagement = ({ appName }) => {
     </div>
   );
 };
-
-export default DeploymentsManagement;

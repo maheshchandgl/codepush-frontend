@@ -10,7 +10,7 @@ import {
   Slider,
 } from '@mui/material';
 
-const PackageDialog = ({
+export const PackageDialog = ({
   open,
   onClose,
   rollout,
@@ -52,5 +52,3 @@ const PackageDialog = ({
     </Dialog>
   );
 };
-
-export default PackageDialog;

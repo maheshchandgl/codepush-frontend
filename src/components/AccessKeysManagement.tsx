@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAccessKeys, removeAccessKey } from '../services/api/accessKeysApi';
 
-const AccessKeysManagement = () => {
+export const AccessKeysManagement = () => {
   const [accessKeys, setAccessKeys] = useState([]);
 
   useEffect(() => {
@@ -31,5 +31,3 @@ const AccessKeysManagement = () => {
     </div>
   );
 };
-
-export default AccessKeysManagement;

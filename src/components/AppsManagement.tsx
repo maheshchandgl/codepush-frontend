@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import GenericListItemContent from './GenericListItemContent';
 
-const AppsManagement = ({ onAppClick }) => {
+export const AppsManagement = ({ onAppClick }) => {
   const [apps, setApps] = useState([]);
   const [newApp, setNewApp] = useState({ name: '', os: '', platform: '' });
 
@@ -85,5 +85,3 @@ const AppsManagement = ({ onAppClick }) => {
     </Box>
   );
 };
-
-export default AppsManagement;

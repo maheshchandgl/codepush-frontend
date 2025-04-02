@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAcquisitionDetails } from '../services/api/acquisitionApi';
 import { Box, Typography, CircularProgress } from '@mui/material';
 
-const AcquisitionDetails = ({ appName }) => {
+export const AcquisitionDetails = ({ appName }) => {
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,5 +35,3 @@ const AcquisitionDetails = ({ appName }) => {
     </Box>
   );
 };
-
-export default AcquisitionDetails;

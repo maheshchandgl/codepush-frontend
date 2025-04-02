@@ -1,35 +1,27 @@
 import React, { useState } from 'react';
 import {
   fetchUsers,
-  addCollaborator,
-  removeCollaborator,
-  transferAppOwnership,
+  addUser,
+  removeUser,
 } from '../services/api/usersApi';
 
-const UsersManagement = ({ appName }) => {
+export const UsersManagement = () => {
   const [users, setUsers] = useState([]);
-  const [collaboratorEmail, setCollaboratorEmail] = useState('');
-  const [transferEmail, setTransferEmail] = useState('');
+  const [newUser, setNewUser] = useState('');
 
   const loadUsers = async () => {
     const usersData = await fetchUsers();
     setUsers(usersData);
   };
 
-  const handleAddCollaborator = async () => {
-    await addCollaborator(appName, collaboratorEmail);
-    setCollaboratorEmail('');
+  const handleAddUser = async () => {
+    await addUser(newUser);
+    setNewUser('');
     loadUsers();
   };
 
-  const handleRemoveCollaborator = async (email) => {
-    await removeCollaborator(appName, email);
-    loadUsers();
-  };
-
-  const handleTransferOwnership = async () => {
-    await transferAppOwnership(appName, transferEmail);
-    setTransferEmail('');
+  const handleRemoveUser = async (userId) => {
+    await removeUser(userId);
     loadUsers();
   };
 
@@ -38,33 +30,21 @@ const UsersManagement = ({ appName }) => {
       <h2>Users Management</h2>
       <ul>
         {users.map((user) => (
-          <li key={user.email}>
-            {user.email} <button onClick={() => handleRemoveCollaborator(user.email)}>Remove</button>
+          <li key={user.id}>
+            {user.name} <button onClick={() => handleRemoveUser(user.id)}>Remove</button>
           </li>
         ))}
       </ul>
       <div>
-        <h3>Add Collaborator</h3>
+        <h3>Add New User</h3>
         <input
-          type="email"
-          placeholder="Collaborator Email"
-          value={collaboratorEmail}
-          onChange={(e) => setCollaboratorEmail(e.target.value)}
+          type="text"
+          placeholder="User Name"
+          value={newUser}
+          onChange={(e) => setNewUser(e.target.value)}
         />
-        <button onClick={handleAddCollaborator}>Add Collaborator</button>
-      </div>
-      <div>
-        <h3>Transfer Ownership</h3>
-        <input
-          type="email"
-          placeholder="New Owner Email"
-          value={transferEmail}
-          onChange={(e) => setTransferEmail(e.target.value)}
-        />
-        <button onClick={handleTransferOwnership}>Transfer Ownership</button>
+        <button onClick={handleAddUser}>Add User</button>
       </div>
     </div>
   );
 };
-
-export default UsersManagement;

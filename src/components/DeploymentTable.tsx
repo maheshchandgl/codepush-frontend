@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 
-const DeploymentTable = ({ packages, onRowClick }) => {
+export const DeploymentTable = ({ packages, onRowClick }) => {
   return (
     <TableContainer component={Paper} sx={{ marginY: 2 }}>
       <Table>
@@ -39,5 +39,3 @@ const DeploymentTable = ({ packages, onRowClick }) => {
     </TableContainer>
   );
 };
-
-export default DeploymentTable;

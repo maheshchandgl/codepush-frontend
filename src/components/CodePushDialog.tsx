@@ -10,7 +10,7 @@ import {
   Slider,
 } from '@mui/material';
 
-const CodePushDetailsDialog = ({ open, onClose }) => {
+export const CodePushDetailsDialog = ({ open, onClose }) => {
   const [appVersion, setAppVersion] = useState('');
   const [rollout, setRollout] = useState(0);
 
@@ -54,5 +54,3 @@ const CodePushDetailsDialog = ({ open, onClose }) => {
     </Dialog>
   );
 };
-
-export default CodePushDetailsDialog;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const GenericListItemContent = ({ primaryText, secondaryText }) => {
+export const GenericListItemContent = ({ primaryText, secondaryText }) => {
   return (
     <Box
       sx={{
@@ -25,5 +25,3 @@ const GenericListItemContent = ({ primaryText, secondaryText }) => {
     </Box>
   );
 };
-
-export default GenericListItemContent;

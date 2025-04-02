@@ -3,7 +3,7 @@ import { AppBar as MuiAppBar, Toolbar, IconButton, Typography } from '@mui/mater
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 
-const AppBar = ({ title, showBackButton = true }) => {
+export const AppBar = ({ title, showBackButton = true }) => {
   const navigate = useNavigate();
 
   return (
@@ -26,5 +26,3 @@ const AppBar = ({ title, showBackButton = true }) => {
     </MuiAppBar>
   );
 };
-
-export default AppBar;
