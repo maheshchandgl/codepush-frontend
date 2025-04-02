@@ -20,6 +20,7 @@ import {
   DialogActions,
   Button,
   TextField,
+  Slider,
 } from '@mui/material';
 import AppBar from '../components/AppBar';
 
@@ -52,7 +53,7 @@ const AppDetails = () => {
 
   const handleRowClick = (pkg) => {
     setSelectedPackage(pkg);
-    setRollout(pkg.rollout || '');
+    setRollout(pkg.rollout !== null && pkg.rollout !== undefined ? pkg.rollout : 0); // Ensure rollout is set correctly
     setDescription(pkg.description || '');
     setDialogOpen(true);
   };
@@ -66,6 +67,10 @@ const AppDetails = () => {
     console.log('Updated Rollout:', rollout);
     console.log('Updated Description:', description);
     setDialogOpen(false);
+  };
+
+  const handleRolloutChange = (event, newValue) => {
+    setRollout(newValue);
   };
 
   return (
@@ -158,13 +163,13 @@ const AppDetails = () => {
       <Dialog open={dialogOpen} onClose={handleDialogClose} fullWidth maxWidth="sm">
         <DialogTitle>Package Details</DialogTitle>
         <DialogContent>
-          <TextField
-            label="Rollout %"
-            type="number"
-            fullWidth
-            margin="normal"
+          <Typography gutterBottom>Rollout %</Typography>
+          <Slider
             value={rollout}
-            onChange={(e) => setRollout(e.target.value)}
+            onChange={handleRolloutChange}
+            min={selectedPackage?.rollout || 0}
+            max={100}
+            valueLabelDisplay="auto"
           />
           <TextField
             label="Description"
