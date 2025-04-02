@@ -4,11 +4,22 @@ import { fetchDeployments } from '../services/api/deploymentsApi';
 import {
   Box,
   Typography,
-  List,
-  ListItem,
   Divider,
   ToggleButtonGroup,
   ToggleButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
 } from '@mui/material';
 import AppBar from '../components/AppBar';
 
@@ -16,6 +27,10 @@ const AppDetails = () => {
   const { appName } = useParams();
   const [deployments, setDeployments] = useState([]);
   const [selectedDeployment, setSelectedDeployment] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [rollout, setRollout] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     const loadDeployments = async () => {
@@ -33,6 +48,24 @@ const AppDetails = () => {
       const deployment = deployments.find((d) => d.name === newDeploymentName);
       setSelectedDeployment(deployment);
     }
+  };
+
+  const handleRowClick = (pkg) => {
+    setSelectedPackage(pkg);
+    setRollout(pkg.rollout || '');
+    setDescription(pkg.description || '');
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleSaveChanges = () => {
+    // Logic to save changes to rollout and description
+    console.log('Updated Rollout:', rollout);
+    console.log('Updated Description:', description);
+    setDialogOpen(false);
   };
 
   return (
@@ -67,18 +100,91 @@ const AppDetails = () => {
             <Typography variant="subtitle2">Created Time: {new Date(selectedDeployment.createdTime).toLocaleString()}</Typography>
             <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Current Package:</Typography>
-            <pre>{JSON.stringify(selectedDeployment.package, null, 2)}</pre>
+            <TableContainer component={Paper} sx={{ marginY: 2 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Label</TableCell>
+                    <TableCell>App Version</TableCell>
+                    <TableCell>Rollout</TableCell>
+                    <TableCell>Size</TableCell>
+                    <TableCell>Release Method</TableCell>
+                    <TableCell>Upload Time</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow onClick={() => handleRowClick(selectedDeployment.package)}>
+                    <TableCell>{selectedDeployment.package.label}</TableCell>
+                    <TableCell>{selectedDeployment.package.appVersion}</TableCell>
+                    <TableCell>{selectedDeployment.package.rollout || 'N/A'}</TableCell>
+                    <TableCell>{selectedDeployment.package.size}</TableCell>
+                    <TableCell>{selectedDeployment.package.releaseMethod}</TableCell>
+                    <TableCell>{new Date(selectedDeployment.package.uploadTime).toLocaleString()}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
             <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Package History:</Typography>
-            {selectedDeployment.packageHistory.map((pkg, index) => (
-              <Box key={index} sx={{ marginBottom: 2 }}>
-                <pre>{JSON.stringify(pkg, null, 2)}</pre>
-                <Divider />
-              </Box>
-            ))}
+            <TableContainer component={Paper} sx={{ marginY: 2 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Label</TableCell>
+                    <TableCell>App Version</TableCell>
+                    <TableCell>Rollout</TableCell>
+                    <TableCell>Size</TableCell>
+                    <TableCell>Release Method</TableCell>
+                    <TableCell>Upload Time</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {selectedDeployment.packageHistory.map((pkg, index) => (
+                    <TableRow key={index} onClick={() => handleRowClick(pkg)}>
+                      <TableCell>{pkg.label}</TableCell>
+                      <TableCell>{pkg.appVersion}</TableCell>
+                      <TableCell>{pkg.rollout || 'N/A'}</TableCell>
+                      <TableCell>{pkg.size}</TableCell>
+                      <TableCell>{pkg.releaseMethod}</TableCell>
+                      <TableCell>{new Date(pkg.uploadTime).toLocaleString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         )}
       </Box>
+      <Dialog open={dialogOpen} onClose={handleDialogClose} fullWidth maxWidth="sm">
+        <DialogTitle>Package Details</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Rollout %"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={rollout}
+            onChange={(e) => setRollout(e.target.value)}
+          />
+          <TextField
+            label="Description"
+            multiline
+            rows={4}
+            fullWidth
+            margin="normal"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSaveChanges} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
