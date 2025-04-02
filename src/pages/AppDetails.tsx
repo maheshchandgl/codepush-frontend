@@ -5,11 +5,9 @@ import {
   Box,
   Typography,
   Divider,
+  Button,
 } from '@mui/material';
-import AppBar from '../components/AppBar';
-import DeploymentToggle from '../components/DeploymentToggle';
-import DeploymentTable from '../components/DeploymentTable';
-import PackageDialog from '../components/PackageDialog';
+import { AppBar, DeploymentToggle, DeploymentTable, PackageDialog, CodePushDetailsDialog } from '../components';
 
 interface Deployment {
   name: string;
@@ -29,7 +27,7 @@ interface Package {
   description: string;
 }
 
-const AppDetails: React.FC = () => {
+const AppDetails = () => {
   const { appName } = useParams<{ appName: string }>();
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
@@ -37,6 +35,7 @@ const AppDetails: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [rollout, setRollout] = useState<number>(0);
   const [description, setDescription] = useState('');
+  const [codePushDialogOpen, setCodePushDialogOpen] = React.useState(false);
 
   useEffect(() => {
     const loadDeployments = async () => {
@@ -81,6 +80,14 @@ const AppDetails: React.FC = () => {
     }
   };
 
+  const handleOpenCodePushDialog = () => {
+    setCodePushDialogOpen(true);
+  };
+
+  const handleCloseCodePushDialog = () => {
+    setCodePushDialogOpen(false);
+  };
+
   return (
     <div>
       <AppBar title="App Details" />
@@ -118,6 +125,18 @@ const AppDetails: React.FC = () => {
             />
           </Box>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleOpenCodePushDialog}
+          sx={{ marginTop: 2 }}
+        >
+          Generate New CodePush
+        </Button>
+        <CodePushDetailsDialog
+          open={codePushDialogOpen}
+          onClose={handleCloseCodePushDialog}
+        />
       </Box>
       <PackageDialog
         open={dialogOpen}

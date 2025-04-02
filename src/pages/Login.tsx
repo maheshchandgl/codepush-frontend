@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setAuthToken } from '../utils/authUtils';
-import { getGitHubOAuthUrl } from '../services/authService';
+import { GitHubLoginButton } from '../components';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
   return (
     <div>
       <h1>Login</h1>
-      <button onClick={() => window.location.href = getGitHubOAuthUrl()}>Login with GitHub</button>
+      <GitHubLoginButton />
     </div>
   );
 };

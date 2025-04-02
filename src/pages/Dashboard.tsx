@@ -1,7 +1,6 @@
-import React from 'react';
+import { AppsManagement, AppBar } from '../components';
 import { useNavigate } from 'react-router-dom';
-import AppsManagement from '../components/AppsManagement';
-import AppBar from '../components/AppBar';
+import React from 'react';
 
 const Dashboard = () => {
   const navigate = useNavigate();

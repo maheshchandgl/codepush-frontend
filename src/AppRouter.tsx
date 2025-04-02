@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import App from './App';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import { Dashboard, Login, AppDetails } from './pages';
 import PrivateRoute from './PrivateRoute';
-import AppDetails from './pages/AppDetails';
 
 const AppRouter = () => {
   console.info('AppRouter component loaded');

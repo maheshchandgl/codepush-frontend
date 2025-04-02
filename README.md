@@ -3,10 +3,15 @@
 This is the frontend for the [CodePush Server](https://github.com/nmengual/code-push-server). It allows users to manage over-the-air updates for their React Native applications.
 
 ### Features
-- Integration with CodePush Server API
-- User-friendly interface for managing deployments
-- Material-UI (MUI) for modern and responsive UI components
-- GitHub OAuth login flow with reusable components and services
+
+### CodePushDetailsDialog
+- A dialog component for initiating a new CodePush.
+- Allows users to input the target app version and rollout percentage.
+- Integrated into the AppDetails page with a button to open the dialog.
+
+### AppDetails Page
+- Displays details of deployments and packages for a selected app.
+- Includes a button to generate a new CodePush using the CodePushDetailsDialog component.
 
 ### Project Structure
 - `src/`: Contains the main application code.
