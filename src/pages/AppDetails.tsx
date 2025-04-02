@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchDeployments } from '../services/api/deploymentsApi';
+import { fetchDeployments } from '../services';
 import {
   Box,
   Typography,
   Divider,
   Button,
 } from '@mui/material';
-import { AppBar, DeploymentToggle, DeploymentTable, PackageDialog, CodePushDetailsDialog } from '../components';
+import { AppBar, DeploymentToggle, DeploymentTable, GenerateCodePushDialog, CodePushDetailsDialog } from '../components';
 
 interface Deployment {
   name: string;
@@ -138,7 +138,7 @@ const AppDetails = () => {
           onClose={handleCloseCodePushDialog}
         />
       </Box>
-      <PackageDialog
+      <GenerateCodePushDialog
         open={dialogOpen}
         onClose={handleDialogClose}
         rollout={rollout}

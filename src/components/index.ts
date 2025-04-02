@@ -3,7 +3,7 @@ export { AcquisitionDetails } from './AcquisitionDetails';
 export { AppBar } from './AppBar';
 export { AppInsights } from './AppInsights';
 export { AppsManagement } from './AppsManagement';
-export { CodePushDetailsDialog } from './CodePushDialog';
+export { GenerateCodePushDialog } from './GenerateCodePushDialog';
 export { DeploymentTable } from './DeploymentTable';
 export { DeploymentToggle } from './DeploymentToggle';
 export { GenericListItemContent } from './GenericListItemContent';
