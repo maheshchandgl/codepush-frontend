@@ -5,36 +5,42 @@ import {
   Box,
   Typography,
   Divider,
-  ToggleButtonGroup,
-  ToggleButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  Slider,
 } from '@mui/material';
 import AppBar from '../components/AppBar';
+import DeploymentToggle from '../components/DeploymentToggle';
+import DeploymentTable from '../components/DeploymentTable';
+import PackageDialog from '../components/PackageDialog';
 
-const AppDetails = () => {
-  const { appName } = useParams();
-  const [deployments, setDeployments] = useState([]);
-  const [selectedDeployment, setSelectedDeployment] = useState(null);
-  const [selectedPackage, setSelectedPackage] = useState(null);
+interface Deployment {
+  name: string;
+  key: string;
+  createdTime: number;
+  package: Package;
+  packageHistory: Package[];
+}
+
+interface Package {
+  label: string;
+  appVersion: string;
+  rollout: number | null;
+  size: number;
+  releaseMethod: string;
+  uploadTime: number;
+  description: string;
+}
+
+const AppDetails: React.FC = () => {
+  const { appName } = useParams<{ appName: string }>();
+  const [deployments, setDeployments] = useState<Deployment[]>([]);
+  const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [rollout, setRollout] = useState('');
+  const [rollout, setRollout] = useState<number>(0);
   const [description, setDescription] = useState('');
 
   useEffect(() => {
     const loadDeployments = async () => {
+      if (!appName) return;
       const response = await fetchDeployments(appName);
       setDeployments(response.deployments || []);
       if (response.deployments && response.deployments.length > 0) {
@@ -44,14 +50,14 @@ const AppDetails = () => {
     loadDeployments();
   }, [appName]);
 
-  const handleDeploymentChange = (event, newDeploymentName) => {
+  const handleDeploymentChange = (_event: React.MouseEvent<HTMLElement>, newDeploymentName: string | null) => {
     if (newDeploymentName) {
       const deployment = deployments.find((d) => d.name === newDeploymentName);
-      setSelectedDeployment(deployment);
+      if (deployment) setSelectedDeployment(deployment);
     }
   };
 
-  const handleRowClick = (pkg) => {
+  const handleRowClick = (pkg: Package) => {
     setSelectedPackage(pkg);
     setRollout(pkg.rollout !== null && pkg.rollout !== undefined ? pkg.rollout : 0); // Ensure rollout is set correctly
     setDescription(pkg.description || '');
@@ -69,8 +75,10 @@ const AppDetails = () => {
     setDialogOpen(false);
   };
 
-  const handleRolloutChange = (event, newValue) => {
-    setRollout(newValue);
+  const handleRolloutChange = (_event: Event, newValue: number | number[]) => {
+    if (typeof newValue === 'number') {
+      setRollout(newValue);
+    }
   };
 
   return (
@@ -86,18 +94,11 @@ const AppDetails = () => {
         <Typography variant="h6" gutterBottom>
           Deployments
         </Typography>
-        <ToggleButtonGroup
-          value={selectedDeployment?.name || ''}
-          exclusive
-          onChange={handleDeploymentChange}
-          sx={{ marginBottom: 2 }}
-        >
-          {deployments.map((deployment) => (
-            <ToggleButton key={deployment.name} value={deployment.name}>
-              {deployment.name}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
+        <DeploymentToggle
+          deployments={deployments}
+          selectedDeployment={selectedDeployment}
+          onDeploymentChange={handleDeploymentChange}
+        />
         {selectedDeployment && (
           <Box>
             <Typography variant="subtitle1">Deployment: {selectedDeployment.name}</Typography>
@@ -105,91 +106,28 @@ const AppDetails = () => {
             <Typography variant="subtitle2">Created Time: {new Date(selectedDeployment.createdTime).toLocaleString()}</Typography>
             <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Current Package:</Typography>
-            <TableContainer component={Paper} sx={{ marginY: 2 }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Label</TableCell>
-                    <TableCell>App Version</TableCell>
-                    <TableCell>Rollout</TableCell>
-                    <TableCell>Size</TableCell>
-                    <TableCell>Release Method</TableCell>
-                    <TableCell>Upload Time</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow onClick={() => handleRowClick(selectedDeployment.package)}>
-                    <TableCell>{selectedDeployment.package.label}</TableCell>
-                    <TableCell>{selectedDeployment.package.appVersion}</TableCell>
-                    <TableCell>{selectedDeployment.package.rollout || 'N/A'}</TableCell>
-                    <TableCell>{selectedDeployment.package.size}</TableCell>
-                    <TableCell>{selectedDeployment.package.releaseMethod}</TableCell>
-                    <TableCell>{new Date(selectedDeployment.package.uploadTime).toLocaleString()}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <DeploymentTable
+              packages={[selectedDeployment.package]}
+              onRowClick={handleRowClick}
+            />
             <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Package History:</Typography>
-            <TableContainer component={Paper} sx={{ marginY: 2 }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Label</TableCell>
-                    <TableCell>App Version</TableCell>
-                    <TableCell>Rollout</TableCell>
-                    <TableCell>Size</TableCell>
-                    <TableCell>Release Method</TableCell>
-                    <TableCell>Upload Time</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {selectedDeployment.packageHistory.map((pkg, index) => (
-                    <TableRow key={index} onClick={() => handleRowClick(pkg)}>
-                      <TableCell>{pkg.label}</TableCell>
-                      <TableCell>{pkg.appVersion}</TableCell>
-                      <TableCell>{pkg.rollout || 'N/A'}</TableCell>
-                      <TableCell>{pkg.size}</TableCell>
-                      <TableCell>{pkg.releaseMethod}</TableCell>
-                      <TableCell>{new Date(pkg.uploadTime).toLocaleString()}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <DeploymentTable
+              packages={selectedDeployment.packageHistory}
+              onRowClick={handleRowClick}
+            />
           </Box>
         )}
       </Box>
-      <Dialog open={dialogOpen} onClose={handleDialogClose} fullWidth maxWidth="sm">
-        <DialogTitle>Package Details</DialogTitle>
-        <DialogContent>
-          <Typography gutterBottom>Rollout %</Typography>
-          <Slider
-            value={rollout}
-            onChange={handleRolloutChange}
-            min={selectedPackage?.rollout || 0}
-            max={100}
-            valueLabelDisplay="auto"
-          />
-          <TextField
-            label="Description"
-            multiline
-            rows={4}
-            fullWidth
-            margin="normal"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleSaveChanges} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <PackageDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        rollout={rollout}
+        description={description}
+        onRolloutChange={handleRolloutChange}
+        onDescriptionChange={(e) => setDescription(e.target.value)}
+        onSave={handleSaveChanges}
+      />
     </div>
   );
 };

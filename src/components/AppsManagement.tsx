@@ -38,7 +38,7 @@ const AppsManagement = ({ onAppClick }) => {
   return (
     <Box sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>
-        Apps Management
+        Apps
       </Typography>
       <List>
         {apps.map((app) => (
