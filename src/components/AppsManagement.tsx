@@ -8,7 +8,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import GenericListItemContent from './GenericListItemContent';
+import { GenericListItemContent } from './GenericListItemContent';
+
 
 export const AppsManagement = ({ onAppClick }) => {
   const [apps, setApps] = useState([]);

@@ -3,7 +3,7 @@ import {
   fetchUsers,
   addUser,
   removeUser,
-} from '../services/api/usersApi';
+} from '../services';
 
 export const UsersManagement = () => {
   const [users, setUsers] = useState([]);

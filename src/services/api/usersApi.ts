@@ -6,6 +6,18 @@ export const fetchUsers = async () => {
   return response.data;
 };
 
+// Add a new user
+export const addUser = async (userName: string) => {
+  const response = await apiClient.post('/users', { name: userName });
+  return response.data;
+};
+
+// Remove an existing user
+export const removeUser = async (userId: string) => {
+  const response = await apiClient.delete(`/users/${userId}`);
+  return response.data;
+};
+
 // Add a collaborator to an app
 export const addCollaborator = async (appName: string, email: string) => {
   const response = await apiClient.post(`/apps/${appName}/collaborators/${email}`);
