@@ -8,5 +8,5 @@ export { DeploymentToggle } from './DeploymentToggle';
 export { GenericListItemContent } from './GenericListItemContent';
 export { GitHubLoginButton } from './GitHubLoginButton';
 export { UsersManagement } from './UsersManagement';
-export { GenerateCodePushDialog } from './GenerateCodePushDialog';
-export { CodePushDetailsDialog } from './CodePushDetailsDialog';
+export { UpdateCodePushDialog } from './UpdateCodePushDialog';
+export { NewPushDialog } from './NewPushDialog';

@@ -4,14 +4,14 @@ This is the frontend for the [CodePush Server](https://github.com/nmengual/code-
 
 ### Features
 
-### CodePushDetailsDialog
+### NewPushDialog
 - A dialog component for initiating a new CodePush.
 - Allows users to input the target app version and rollout percentage.
 - Integrated into the AppDetails page with a button to open the dialog.
 
 ### AppDetails Page
 - Displays details of deployments and packages for a selected app.
-- Includes a button to generate a new CodePush using the CodePushDetailsDialog component.
+- Includes a button to generate a new CodePush using the NewPushDialog component.
 
 ### Project Structure
 - `src/`: Contains the main application code.

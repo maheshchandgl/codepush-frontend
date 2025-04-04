@@ -7,7 +7,7 @@ import {
   Divider,
   Button,
 } from '@mui/material';
-import { AppBar, DeploymentToggle, DeploymentTable, GenerateCodePushDialog, CodePushDetailsDialog } from '../components';
+import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewPushDialog } from '../components';
 
 interface Deployment {
   name: string;
@@ -133,12 +133,12 @@ const AppDetails = () => {
         >
           Generate New CodePush
         </Button>
-        <CodePushDetailsDialog
+        <NewPushDialog
           open={codePushDialogOpen}
           onClose={handleCloseCodePushDialog}
         />
       </Box>
-      <GenerateCodePushDialog
+      <UpdateCodePushDialog
         open={dialogOpen}
         onClose={handleDialogClose}
         rollout={rollout}
