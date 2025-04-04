@@ -24,3 +24,9 @@ export const renameDeployment = async (appName: string, deploymentName: string, 
   const response = await apiClient.patch(`/apps/${appName}/deployments/${deploymentName}`, { name: newName });
   return response.data;
 };
+
+// Update deployment details
+export const updateDeployment = async (appName: string, deploymentName: string, updateData: { rollout?: number; description?: string; appVersion?: string; isMandatory?: boolean; label?: string }) => {
+  const response = await apiClient.patch(`/apps/${appName}/deployments/${deploymentName}/release`, updateData);
+  return response.data;
+};

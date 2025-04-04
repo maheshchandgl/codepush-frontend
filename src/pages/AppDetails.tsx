@@ -35,6 +35,8 @@ const AppDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [rollout, setRollout] = useState<number>(0);
   const [description, setDescription] = useState('');
+  const [appVersion, setAppVersion] = useState('');
+  const [label, setLabel] = useState('');
   const [codePushDialogOpen, setCodePushDialogOpen] = React.useState(false);
 
   useEffect(() => {
@@ -57,9 +59,12 @@ const AppDetails = () => {
   };
 
   const handleRowClick = (pkg: Package) => {
+    console.info('Package clicked:', pkg);
     setSelectedPackage(pkg);
     setRollout(pkg.rollout !== null && pkg.rollout !== undefined ? pkg.rollout : 0); // Ensure rollout is set correctly
     setDescription(pkg.description || '');
+    setAppVersion(pkg.appVersion || '');
+    setLabel(pkg.label || '');  
     setDialogOpen(true);
   };
 
@@ -142,6 +147,8 @@ const AppDetails = () => {
         open={dialogOpen}
         onClose={handleDialogClose}
         rollout={rollout}
+        appVersion={appVersion}
+        label={label}
         description={description}
         onRolloutChange={handleRolloutChange}
         onDescriptionChange={(e) => setDescription(e.target.value)}
