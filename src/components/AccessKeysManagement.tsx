@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAccessKeys, removeAccessKey } from '../services/api/accessKeysApi';
-import { AccessKey } from '../types';
+import { AccessKey, ApiResponse } from '../types';
 
 export const AccessKeysManagement = () => {
   const [accessKeys, setAccessKeys] = useState<AccessKey[]>([]);
 
   useEffect(() => {
     const loadAccessKeys = async () => {
-      const response = await fetchAccessKeys();
-      setAccessKeys(response.accessKeys || []); // Access the 'accessKeys' array from the API response
+      const response: ApiResponse<AccessKey[]> = await fetchAccessKeys();
+      setAccessKeys(response.data || []); // Access the 'data' array from the API response
     };
     loadAccessKeys();
   }, []);
 
-  const handleRemoveAccessKey = async (keyId) => {
+  const handleRemoveAccessKey = async (keyId: string) => {
     await removeAccessKey(keyId);
-    const response = await fetchAccessKeys();
-    setAccessKeys(response.accessKeys || []); // Update the state with the 'accessKeys' array
+    const response: ApiResponse<AccessKey[]> = await fetchAccessKeys();
+    setAccessKeys(response.data || []); // Update the state with the 'data' array
   };
 
   return (

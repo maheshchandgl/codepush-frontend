@@ -10,6 +10,23 @@ import {
   Slider,
 } from '@mui/material';
 import { updateDeployment } from '../services/api/deploymentsApi';
+import { UpdateDeploymentRequest } from '../types';
+
+interface UpdateCodePushDialogProps {
+  open: boolean;
+  onClose: () => void;
+  rollout: number;
+  description: string;
+  appVersion: string;
+  label: string;
+  onRolloutChange: (event: Event, value: number | number[]) => void;
+  onDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onAppVersionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onLabelChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSave: () => void;
+  appName: string;
+  deploymentName: string;
+}
 
 export const UpdateCodePushDialog = ({
   open,
@@ -23,7 +40,9 @@ export const UpdateCodePushDialog = ({
   onAppVersionChange,
   onLabelChange,
   onSave,
-}) => {
+  appName,
+  deploymentName,
+}: UpdateCodePushDialogProps) => {
   const handleSave = async () => {
     try {
       const data = await updateDeployment(appName, deploymentName, {
@@ -40,19 +59,9 @@ export const UpdateCodePushDialog = ({
     }
   };
 
-  console.info('UpdateCodePushDialog', {
-    open,
-    rollout,
-    description,
-    onRolloutChange,
-    onDescriptionChange,
-    onSave,
-    appVersion,
-    label
-  });
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Package Details</DialogTitle>
+      <DialogTitle>Update Deployment</DialogTitle>
       <DialogContent>
         <Typography gutterBottom>{`Rollout ${rollout}%`}</Typography>
         <Slider
@@ -91,7 +100,7 @@ export const UpdateCodePushDialog = ({
           Cancel
         </Button>
         <Button onClick={handleSave} color="primary">
-          Submit
+          Save
         </Button>
       </DialogActions>
     </Dialog>
