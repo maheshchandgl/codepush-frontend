@@ -36,3 +36,17 @@ export const updateDeployment = async (
   });
   return response.data;
 };
+
+// Promote a package from one deployment to another
+export const promoteDeployment = async (
+  appName: string,
+  sourceDeploymentName: string,
+  destDeploymentName: string,
+  packageInfo: UpdateDeploymentRequest
+): Promise<ApiResponse<Deployment>> => {
+  const response = await apiClient.post(
+    `/apps/${appName}/deployments/${sourceDeploymentName}/promote/${destDeploymentName}`,
+    { packageInfo }
+  );
+  return response.data;
+};

@@ -35,6 +35,14 @@ export interface UpdateDeploymentRequest {
   label?: string;
 }
 
+export interface PromoteDeploymentRequest {
+  label?: string;
+  description?: string;
+  rollout?: number;
+  isMandatory?: boolean;
+  appVersion?: string;
+}
+
 export interface AccessKey {
   id: string;
   name: string;

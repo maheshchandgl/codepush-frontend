@@ -121,6 +121,8 @@ const AppDetails = () => {
             <DeploymentTable
               packages={[selectedDeployment.package]}
               onRowClick={handleRowClick}
+              appName={appName}
+              sourceDeploymentName={selectedDeployment.name}
             />
             <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Package History:</Typography>
