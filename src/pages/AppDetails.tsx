@@ -152,7 +152,11 @@ const AppDetails = () => {
         description={description}
         onRolloutChange={handleRolloutChange}
         onDescriptionChange={(e) => setDescription(e.target.value)}
+        onAppVersionChange={(e) => setAppVersion(e.target.value)}
+        onLabelChange={(e) => setLabel(e.target.value)}
         onSave={handleSaveChanges}
+        appName={appName}
+        deploymentName={selectedDeployment?.name || ''}
       />
     </div>
   );

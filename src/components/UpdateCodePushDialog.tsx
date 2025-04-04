@@ -44,6 +44,12 @@ export const UpdateCodePushDialog = ({
   deploymentName,
 }: UpdateCodePushDialogProps) => {
   const handleSave = async () => {
+    console.info("Saving deployment update...", {
+      appName, deploymentName,
+      rollout,
+      description,
+      appVersion,
+    });
     try {
       const data = await updateDeployment(appName, deploymentName, {
         rollout,
