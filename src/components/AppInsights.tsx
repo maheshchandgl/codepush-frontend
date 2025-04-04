@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAppInsights } from '../services/api/appInsightsApi';
 import { Box, Typography, CircularProgress } from '@mui/material';
+import { AppInsightsProps } from '../types';
 
-export const AppInsights = ({ appName }) => {
+export const AppInsights = ({ appName }: AppInsightsProps) => {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
 

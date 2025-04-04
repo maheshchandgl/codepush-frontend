@@ -9,9 +9,9 @@ import {
   Typography,
 } from '@mui/material';
 import { GenericListItemContent } from './GenericListItemContent';
+import { AppsManagementProps } from '../types';
 
-
-export const AppsManagement = ({ onAppClick }) => {
+export const AppsManagement = ({ onAppClick }: AppsManagementProps) => {
   const [apps, setApps] = useState([]);
   const [newApp, setNewApp] = useState({ name: '', os: '', platform: '' });
 

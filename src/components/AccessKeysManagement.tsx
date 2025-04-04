@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAccessKeys, removeAccessKey } from '../services/api/accessKeysApi';
+import { AccessKey } from '../types';
 
 export const AccessKeysManagement = () => {
-  const [accessKeys, setAccessKeys] = useState([]);
+  const [accessKeys, setAccessKeys] = useState<AccessKey[]>([]);
 
   useEffect(() => {
     const loadAccessKeys = async () => {

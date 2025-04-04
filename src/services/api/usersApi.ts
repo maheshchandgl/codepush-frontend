@@ -1,19 +1,20 @@
 import apiClient from './apiClient';
+import { ApiResponse } from '../../types';
 
 // List all users
-export const fetchUsers = async () => {
+export const fetchUsers = async (): Promise<ApiResponse<any[]>> => {
   const response = await apiClient.get('/users');
   return response.data;
 };
 
 // Add a new user
-export const addUser = async (userName: string) => {
+export const addUser = async (userName: string): Promise<ApiResponse<any>> => {
   const response = await apiClient.post('/users', { name: userName });
   return response.data;
 };
 
 // Remove an existing user
-export const removeUser = async (userId: string) => {
+export const removeUser = async (userId: string): Promise<ApiResponse<null>> => {
   const response = await apiClient.delete(`/users/${userId}`);
   return response.data;
 };
