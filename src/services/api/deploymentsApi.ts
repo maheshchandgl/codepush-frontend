@@ -50,3 +50,21 @@ export const promoteDeployment = async (
   );
   return response.data;
 };
+
+// Rollback a deployment to a previous package
+export const rollbackDeployment = async (
+  appName: string,
+  deploymentName: string,
+  targetLabel: string
+): Promise<ApiResponse<Deployment>> => {
+  try {
+    const response = await apiClient.post(
+      `/apps/${appName}/deployments/${deploymentName}/rollback`,
+      { label: targetLabel }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error during rollback:', error);
+    throw error;
+  }
+};

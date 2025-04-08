@@ -9,8 +9,9 @@ import {
   Paper,
   Button,
 } from '@mui/material';
-import { promoteDeployment } from '../services/api/deploymentsApi';
+import { promoteDeployment, rollbackDeployment } from '../services/api/deploymentsApi';
 import { Package, PromoteDeploymentRequest } from '../types';
+import { RELEASE_METHODS } from '../constants';
 
 interface DeploymentTableProps {
   packages: Package[];
@@ -26,6 +27,16 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
       console.log('Package promoted successfully:', response);
     } catch (error) {
       console.error('Error promoting package:', error);
+    }
+  };
+
+  const handleRollback = async (pkg: Package) => {
+    try {
+      console.log('Initiating rollback for package:', pkg);
+      const response = await rollbackDeployment(appName, sourceDeploymentName, pkg.label);
+      console.log('Rollback successful:', response);
+    } catch (error) {
+      console.error('Rollback failed:', error);
     }
   };
 
@@ -62,20 +73,30 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
               <TableCell>{pkg.releaseMethod}</TableCell>
               <TableCell>{new Date(pkg.uploadTime).toLocaleString()}</TableCell>
               <TableCell>
-                {sourceDeploymentName !== 'Production' && (
+                {sourceDeploymentName === 'Production' && pkg.releaseMethod !== RELEASE_METHODS.ROLLBACK ? (
                   <Button
                     variant="contained"
-                    color="primary"
-                    onClick={() => handlePromote('Production', {
-                      label: pkg.label,
-                      description: pkg.description,
-                      rollout: pkg.rollout,
-                      isMandatory: pkg.isMandatory,
-                      appVersion: pkg.appVersion,
-                    })}
+                    color="secondary"
+                    onClick={() => handleRollback(pkg)}
                   >
-                    Promote
+                    Rollback
                   </Button>
+                ) : (
+                  sourceDeploymentName !== 'Production' && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handlePromote('Production', {
+                        label: pkg.label,
+                        description: pkg.description,
+                        rollout: pkg.rollout,
+                        isMandatory: pkg.isMandatory,
+                        appVersion: pkg.appVersion,
+                      })}
+                    >
+                      Promote
+                    </Button>
+                  )
                 )}
               </TableCell>
             </TableRow>

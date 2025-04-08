@@ -122,6 +122,7 @@ const AppDetails = () => {
               packages={selectedDeployment.packageHistory}
               onRowClick={handleRowClick}
               sourceDeploymentName={selectedDeployment.name}
+              appName={appName}
             />
           </Box>
         )}
