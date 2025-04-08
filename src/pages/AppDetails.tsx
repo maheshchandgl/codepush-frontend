@@ -8,6 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewPushDialog } from '../components';
+import { DEPLOYMENT_NAMES } from '../constants';
 
 interface Deployment {
   name: string;
@@ -123,6 +124,7 @@ const AppDetails = () => {
               onRowClick={handleRowClick}
               sourceDeploymentName={selectedDeployment.name}
               appName={appName}
+              productionPackages={deployments.find((d) => d.name === DEPLOYMENT_NAMES.PRODUCTION)?.packageHistory || []}
             />
           </Box>
         )}

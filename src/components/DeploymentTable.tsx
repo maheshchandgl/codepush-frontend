@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
   Button,
+  Typography,
 } from '@mui/material';
 import { usePromoteDeployment } from '../hooks/usePromoteDeployment';
 import { useRollbackDeployment } from '../hooks/useRollbackDeployment';
@@ -19,13 +20,18 @@ interface DeploymentTableProps {
   onRowClick: (pkg: Package) => void;
   appName: string;
   sourceDeploymentName: string;
+  productionPackages: Package[]; // Add productionPackages to props
 }
 
-export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymentName }: DeploymentTableProps) => {
+export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymentName, productionPackages }: DeploymentTableProps) => {
   const { promote, loading: promoteLoading } = usePromoteDeployment(appName, sourceDeploymentName);
   const { rollback, loading: rollbackLoading } = useRollbackDeployment(appName, sourceDeploymentName);
 
   const sortedPackages = [...packages].sort((a, b) => b.uploadTime - a.uploadTime);
+
+  const isPromoted = (pkg: Package) => {
+    return productionPackages.some((prodPkg) => prodPkg.packageHash === pkg.packageHash);
+  };
 
   return (
     <TableContainer component={Paper} sx={{ marginY: 2 }}>
@@ -69,20 +75,26 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
                   </Button>
                 ) : (
                   sourceDeploymentName !== DEPLOYMENT_NAMES.PRODUCTION && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => promote(DEPLOYMENT_NAMES.PRODUCTION, {
-                        label: pkg.label,
-                        description: pkg.description,
-                        rollout: pkg.rollout,
-                        isMandatory: pkg.isMandatory,
-                        appVersion: pkg.appVersion,
-                      })}
-                      disabled={promoteLoading}
-                    >
-                      Promote
-                    </Button>
+                    isPromoted(pkg) ? (
+                      <Typography variant="body2" color="textSecondary">
+                        Already Promoted
+                      </Typography>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => promote(DEPLOYMENT_NAMES.PRODUCTION, {
+                          label: pkg.label,
+                          description: pkg.description,
+                          rollout: pkg.rollout,
+                          isMandatory: pkg.isMandatory,
+                          appVersion: pkg.appVersion,
+                        })}
+                        disabled={promoteLoading}
+                      >
+                        Promote
+                      </Button>
+                    )
                   )
                 )}
               </TableCell>
