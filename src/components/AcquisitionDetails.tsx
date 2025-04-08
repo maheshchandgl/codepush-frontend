@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAcquisitionDetails } from '../services/api/acquisitionApi';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import { AcquisitionDetailsProps } from '../types';

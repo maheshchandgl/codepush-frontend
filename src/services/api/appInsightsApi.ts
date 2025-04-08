@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { ApiResponse } from '../../types';
+import { ApiResponse } from '../../shared/types';
 
 // Fetch app insights for a specific app
 export const fetchAppInsights = async (appName: string): Promise<ApiResponse<any>> => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAccessKeys, removeAccessKey } from '../services/api/accessKeysApi';
 import { AccessKey, ApiResponse } from '../types';
 

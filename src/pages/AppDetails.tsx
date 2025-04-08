@@ -28,17 +28,17 @@ interface Package {
   description: string;
 }
 
-const AppDetails = () => {
+const AppDetails: React.FC = () => {
   const { appName } = useParams<{ appName: string }>();
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [rollout, setRollout] = useState<number>(0);
-  const [description, setDescription] = useState('');
-  const [appVersion, setAppVersion] = useState('');
-  const [label, setLabel] = useState('');
-  const [codePushDialogOpen, setCodePushDialogOpen] = React.useState(false);
+  const [description, setDescription] = useState<string>('');
+  const [appVersion, setAppVersion] = useState<string>('');
+  const [label, setLabel] = useState<string>('');
+  const [codePushDialogOpen, setCodePushDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const loadDeployments = async () => {

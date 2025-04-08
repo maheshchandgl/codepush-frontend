@@ -13,12 +13,22 @@ This is the frontend for the [CodePush Server](https://github.com/nmengual/code-
 - Displays details of deployments and packages for a selected app.
 - Includes a button to generate a new CodePush using the NewPushDialog component.
 
-### Project Structure
-- `src/`: Contains the main application code.
-  - `components/`: Reusable UI components like `GitHubLoginButton`.
-  - `pages/`: Page components like `Login` and `Dashboard`.
-  - `services/`: API-related logic, such as `authService` for authentication.
-  - `utils/`: Utility functions grouped by functionality.
+## Project Structure
+
+The project is organized into feature-based folders under `src/features/` and shared resources under `src/shared/`.
+
+### Features
+- `auth`: Handles authentication-related logic.
+- `apps`: Manages app-related functionality.
+- `deployments`: Manages deployment-related functionality.
+
+### Shared
+- `constants`: Contains shared constants.
+- `types`: Contains shared TypeScript types.
+- `utils`: Contains shared utility functions.
+
+### Public
+- `en.json`: Contains localized strings for the application.
 
 ### Setup
 1. Clone the repository.
@@ -30,6 +40,14 @@ This is the frontend for the [CodePush Server](https://github.com/nmengual/code-
    ```bash
    yarn dev
    ```
+
+## Contributing
+
+1. Follow the feature-based folder structure.
+2. Use shared resources from `src/shared/` whenever possible.
+3. Write modular and reusable code.
+4. Add comments for complex logic.
+5. Update documentation for any significant changes.
 
 ### Contribution
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on contributing to this project.

@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import { Deployment, Package, UpdateDeploymentRequest, ApiResponse } from '../../types';
+import { Deployment, Package, UpdateDeploymentRequest, ApiResponse } from '../../shared/types';
 
 // Fetch all deployments of an app
 export const fetchDeployments = async (appName: string): Promise<ApiResponse<Deployment[]>> => {
@@ -41,30 +41,22 @@ export const updateDeployment = async (
 export const promoteDeployment = async (
   appName: string,
   sourceDeploymentName: string,
-  destDeploymentName: string,
-  packageInfo: UpdateDeploymentRequest
-): Promise<ApiResponse<Deployment>> => {
-  const response = await apiClient.post(
-    `/apps/${appName}/deployments/${sourceDeploymentName}/promote/${destDeploymentName}`,
-    { packageInfo }
-  );
-  return response.data;
+  targetDeploymentName: string,
+  payload: object
+): Promise<void> => {
+  await apiClient.post(`/apps/${appName}/deployments/${sourceDeploymentName}/promote`, {
+    targetDeploymentName,
+    ...payload,
+  });
 };
 
 // Rollback a deployment to a previous package
 export const rollbackDeployment = async (
   appName: string,
-  deploymentName: string,
-  targetLabel: string
-): Promise<ApiResponse<Deployment>> => {
-  try {
-    const response = await apiClient.post(
-      `/apps/${appName}/deployments/${deploymentName}/rollback`,
-      { label: targetLabel }
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error during rollback:', error);
-    throw error;
-  }
+  sourceDeploymentName: string,
+  label: string
+): Promise<void> => {
+  await apiClient.post(`/apps/${appName}/deployments/${sourceDeploymentName}/rollback`, {
+    label,
+  });
 };

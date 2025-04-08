@@ -6,10 +6,23 @@ import {
   renameDeployment,
 } from '../services/api/deploymentsApi';
 
-export const DeploymentsManagement = ({ appName }) => {
-  const [deployments, setDeployments] = useState([]);
-  const [newDeployment, setNewDeployment] = useState('');
-  const [renameData, setRenameData] = useState({ oldName: '', newName: '' });
+interface Deployment {
+  name: string;
+}
+
+interface RenameData {
+  oldName: string;
+  newName: string;
+}
+
+interface DeploymentsManagementProps {
+  appName: string;
+}
+
+export const DeploymentsManagement: React.FC<DeploymentsManagementProps> = ({ appName }) => {
+  const [deployments, setDeployments] = useState<Deployment[]>([]);
+  const [newDeployment, setNewDeployment] = useState<string>('');
+  const [renameData, setRenameData] = useState<RenameData>({ oldName: '', newName: '' });
 
   const loadDeployments = async () => {
     const deploymentsData = await fetchDeployments(appName);
@@ -22,7 +35,7 @@ export const DeploymentsManagement = ({ appName }) => {
     loadDeployments();
   };
 
-  const handleDeleteDeployment = async (deploymentName) => {
+  const handleDeleteDeployment = async (deploymentName: string) => {
     await deleteDeployment(appName, deploymentName);
     loadDeployments();
   };

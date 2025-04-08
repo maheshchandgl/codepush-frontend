@@ -21,10 +21,10 @@ interface DeploymentTableProps {
   onRowClick: (pkg: Package) => void;
   appName: string;
   sourceDeploymentName: string;
-  productionPackages: Package[]; // Add productionPackages to props
+  productionPackages: Package[];
 }
 
-export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymentName, productionPackages }: DeploymentTableProps) => {
+export const DeploymentTable: React.FC<DeploymentTableProps> = ({ packages, onRowClick, appName, sourceDeploymentName, productionPackages }) => {
   const { promote, loading: promoteLoading } = usePromoteDeployment(appName, sourceDeploymentName);
   const { rollback, loading: rollbackLoading } = useRollbackDeployment(appName, sourceDeploymentName);
 

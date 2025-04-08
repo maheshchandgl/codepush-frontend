@@ -1,4 +1,4 @@
-# Contributing to CodePush Frontend
+# Contributing Guidelines
 
 Thank you for considering contributing to this project! Here are some guidelines to help you get started:
 
@@ -8,9 +8,30 @@ Thank you for considering contributing to this project! Here are some guidelines
 3. Make your changes and test them thoroughly.
 4. Submit a pull request with a clear description of your changes.
 
+## Folder Structure
+
+- **`src/features/`**: Contains feature-specific folders for modularity.
+- **`src/shared/`**: Contains shared resources like constants, types, and utilities.
+- **`public/`**: Contains public assets and localization files.
+
+## Coding Standards
+
+1. Use TypeScript for type safety.
+2. Follow the feature-based folder structure.
+3. Write modular and reusable code.
+4. Use hooks for reusable logic.
+5. Add comments for complex logic.
+6. Use localized strings from `public/en.json` instead of hardcoding.
+
 ## Code Style
 - Follow the existing code style and conventions.
 - Use ESLint to lint your code before submitting.
+
+## Pull Requests
+
+1. Ensure all tests pass.
+2. Update documentation for significant changes.
+3. Provide a clear and descriptive commit message.
 
 ## Reporting Issues
 If you find a bug or have a feature request, please open an issue on GitHub with detailed information.

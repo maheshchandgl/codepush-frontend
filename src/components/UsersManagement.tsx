@@ -5,12 +5,17 @@ import {
   removeUser,
 } from '../services';
 
-export const UsersManagement = () => {
-  const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState('');
+interface User {
+  id: string;
+  name: string;
+}
+
+export const UsersManagement: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [newUser, setNewUser] = useState<string>('');
 
   const loadUsers = async () => {
-    const usersData = await fetchUsers();
+    const usersData: User[] = await fetchUsers();
     setUsers(usersData);
   };
 
@@ -20,7 +25,7 @@ export const UsersManagement = () => {
     loadUsers();
   };
 
-  const handleRemoveUser = async (userId) => {
+  const handleRemoveUser = async (userId: string) => {
     await removeUser(userId);
     loadUsers();
   };

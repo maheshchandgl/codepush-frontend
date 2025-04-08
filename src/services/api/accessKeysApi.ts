@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { ApiResponse } from '../../types';
+import { ApiResponse } from '../../shared/types';
 
 // Fetch access keys
 export const fetchAccessKeys = async (): Promise<ApiResponse<any[]>> => {

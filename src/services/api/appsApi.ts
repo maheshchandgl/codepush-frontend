@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { ApiResponse } from '../../types';
+import { ApiResponse } from '../../shared/types';
 
 // Fetch all apps
 export const fetchApps = async (): Promise<ApiResponse<any[]>> => {

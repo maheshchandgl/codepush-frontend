@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { ApiResponse } from '../../types';
+import { ApiResponse } from '../../shared/types';
 
 // List all users
 export const fetchUsers = async (): Promise<ApiResponse<any[]>> => {

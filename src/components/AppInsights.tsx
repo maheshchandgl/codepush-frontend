@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAppInsights } from '../services/api/appInsightsApi';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import { AppInsightsProps } from '../types';

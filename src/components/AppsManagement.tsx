@@ -11,9 +11,15 @@ import {
 import { GenericListItemContent } from './GenericListItemContent';
 import { AppsManagementProps } from '../types';
 
+interface App {
+  name: string;
+  os: string;
+  platform: string;
+}
+
 export const AppsManagement = ({ onAppClick }: AppsManagementProps) => {
-  const [apps, setApps] = useState([]);
-  const [newApp, setNewApp] = useState({ name: '', os: '', platform: '' });
+  const [apps, setApps] = useState<App[]>([]);
+  const [newApp, setNewApp] = useState<App>({ name: '', os: '', platform: '' });
 
   useEffect(() => {
     const loadApps = async () => {
@@ -30,7 +36,7 @@ export const AppsManagement = ({ onAppClick }: AppsManagementProps) => {
     setApps(response.apps); // Update the state with the 'apps' array
   };
 
-  const handleDeleteApp = async (appName) => {
+  const handleDeleteApp = async (appName: string) => {
     await deleteApp(appName);
     const response = await fetchApps();
     setApps(response.apps); // Update the state with the 'apps' array
