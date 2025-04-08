@@ -121,6 +121,7 @@ const AppDetails = () => {
             <DeploymentTable
               packages={selectedDeployment.packageHistory}
               onRowClick={handleRowClick}
+              sourceDeploymentName={selectedDeployment.name}
             />
           </Box>
         )}

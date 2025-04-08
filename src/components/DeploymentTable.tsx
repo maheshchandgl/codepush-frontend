@@ -30,7 +30,7 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
   };
 
   const sortedPackages = [...packages].sort((a, b) => b.uploadTime - a.uploadTime);
-
+  console.info(' sourceDeploymentName:', sourceDeploymentName);
   return (
     <TableContainer component={Paper} sx={{ marginY: 2 }}>
       <Table>
