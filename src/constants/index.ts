@@ -3,3 +3,8 @@ export const RELEASE_METHODS = {
   ROLLBACK: 'Rollback',
   UPDATE: 'Update',
 };
+
+export const DEPLOYMENT_NAMES = {
+  PRODUCTION: 'Production',
+  STAGING: 'Staging',
+};

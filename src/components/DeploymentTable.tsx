@@ -9,9 +9,10 @@ import {
   Paper,
   Button,
 } from '@mui/material';
-import { promoteDeployment, rollbackDeployment } from '../services/api/deploymentsApi';
+import { usePromoteDeployment } from '../hooks/usePromoteDeployment';
+import { useRollbackDeployment } from '../hooks/useRollbackDeployment';
 import { Package, PromoteDeploymentRequest } from '../types';
-import { RELEASE_METHODS } from '../constants';
+import { RELEASE_METHODS, DEPLOYMENT_NAMES } from '../constants';
 
 interface DeploymentTableProps {
   packages: Package[];
@@ -21,27 +22,11 @@ interface DeploymentTableProps {
 }
 
 export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymentName }: DeploymentTableProps) => {
-  const handlePromote = async (destDeploymentName: string, packageInfo: PromoteDeploymentRequest) => {
-    try {
-      const response = await promoteDeployment(appName, sourceDeploymentName, destDeploymentName, packageInfo);
-      console.log('Package promoted successfully:', response);
-    } catch (error) {
-      console.error('Error promoting package:', error);
-    }
-  };
-
-  const handleRollback = async (pkg: Package) => {
-    try {
-      console.log('Initiating rollback for package:', pkg);
-      const response = await rollbackDeployment(appName, sourceDeploymentName, pkg.label);
-      console.log('Rollback successful:', response);
-    } catch (error) {
-      console.error('Rollback failed:', error);
-    }
-  };
+  const { promote, loading: promoteLoading } = usePromoteDeployment(appName, sourceDeploymentName);
+  const { rollback, loading: rollbackLoading } = useRollbackDeployment(appName, sourceDeploymentName);
 
   const sortedPackages = [...packages].sort((a, b) => b.uploadTime - a.uploadTime);
-  console.info(' sourceDeploymentName:', sourceDeploymentName);
+
   return (
     <TableContainer component={Paper} sx={{ marginY: 2 }}>
       <Table>
@@ -73,26 +58,28 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
               <TableCell>{pkg.releaseMethod}</TableCell>
               <TableCell>{new Date(pkg.uploadTime).toLocaleString()}</TableCell>
               <TableCell>
-                {sourceDeploymentName === 'Production' && pkg.releaseMethod !== RELEASE_METHODS.ROLLBACK ? (
+                {sourceDeploymentName === DEPLOYMENT_NAMES.PRODUCTION && pkg.releaseMethod !== RELEASE_METHODS.ROLLBACK ? (
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleRollback(pkg)}
+                    onClick={() => rollback(pkg.label)}
+                    disabled={rollbackLoading}
                   >
                     Rollback
                   </Button>
                 ) : (
-                  sourceDeploymentName !== 'Production' && (
+                  sourceDeploymentName !== DEPLOYMENT_NAMES.PRODUCTION && (
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => handlePromote('Production', {
+                      onClick={() => promote(DEPLOYMENT_NAMES.PRODUCTION, {
                         label: pkg.label,
                         description: pkg.description,
                         rollout: pkg.rollout,
                         isMandatory: pkg.isMandatory,
                         appVersion: pkg.appVersion,
                       })}
+                      disabled={promoteLoading}
                     >
                       Promote
                     </Button>
