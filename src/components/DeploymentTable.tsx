@@ -29,6 +29,8 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
     }
   };
 
+  const sortedPackages = [...packages].sort((a, b) => b.uploadTime - a.uploadTime);
+
   return (
     <TableContainer component={Paper} sx={{ marginY: 2 }}>
       <Table>
@@ -44,8 +46,15 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
           </TableRow>
         </TableHead>
         <TableBody>
-          {packages.map((pkg, index) => (
-            <TableRow key={index} onClick={() => onRowClick(pkg)}>
+          {sortedPackages.map((pkg, index) => (
+            <TableRow
+              key={index}
+              onClick={(e) => {
+                if (!(e.target as HTMLElement).closest('button')) {
+                  onRowClick(pkg);
+                }
+              }}
+            >
               <TableCell>{pkg.label}</TableCell>
               <TableCell>{pkg.appVersion}</TableCell>
               <TableCell>{pkg.rollout || 'N/A'}</TableCell>
@@ -53,19 +62,21 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
               <TableCell>{pkg.releaseMethod}</TableCell>
               <TableCell>{new Date(pkg.uploadTime).toLocaleString()}</TableCell>
               <TableCell>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handlePromote('Production', {
-                    label: pkg.label,
-                    description: pkg.description,
-                    rollout: pkg.rollout,
-                    isMandatory: pkg.isMandatory,
-                    appVersion: pkg.appVersion,
-                  })}
-                >
-                  Promote
-                </Button>
+                {sourceDeploymentName !== 'Production' && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handlePromote('Production', {
+                      label: pkg.label,
+                      description: pkg.description,
+                      rollout: pkg.rollout,
+                      isMandatory: pkg.isMandatory,
+                      appVersion: pkg.appVersion,
+                    })}
+                  >
+                    Promote
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}

@@ -117,14 +117,6 @@ const AppDetails = () => {
             <Typography variant="subtitle2">Key: {selectedDeployment.key}</Typography>
             <Typography variant="subtitle2">Created Time: {new Date(selectedDeployment.createdTime).toLocaleString()}</Typography>
             <Divider sx={{ marginY: 2 }} />
-            <Typography variant="subtitle1">Current Package:</Typography>
-            <DeploymentTable
-              packages={[selectedDeployment.package]}
-              onRowClick={handleRowClick}
-              appName={appName}
-              sourceDeploymentName={selectedDeployment.name}
-            />
-            <Divider sx={{ marginY: 2 }} />
             <Typography variant="subtitle1">Package History:</Typography>
             <DeploymentTable
               packages={selectedDeployment.packageHistory}
