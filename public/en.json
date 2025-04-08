@@ -1,0 +1,19 @@
+{
+  "deploymentTable": {
+    "alreadyPromoted": "Already Promoted",
+    "promote": "Promote",
+    "rollback": "Rollback",
+    "label": "Label",
+    "appVersion": "App Version",
+    "rollout": "Rollout",
+    "size": "Size",
+    "releaseMethod": "Release Method",
+    "uploadTime": "Upload Time",
+    "actions": "Actions"
+  },
+  "appDetails": {
+    "appDetails": "App Details",
+    "deployments": "Deployments",
+    "generateNewCodePush": "Generate New CodePush"
+  }
+}

@@ -14,6 +14,7 @@ import { usePromoteDeployment } from '../hooks/usePromoteDeployment';
 import { useRollbackDeployment } from '../hooks/useRollbackDeployment';
 import { Package, PromoteDeploymentRequest } from '../types';
 import { RELEASE_METHODS, DEPLOYMENT_NAMES } from '../constants';
+import en from '../../public/en.json';
 
 interface DeploymentTableProps {
   packages: Package[];
@@ -71,13 +72,13 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
                     onClick={() => rollback(pkg.label)}
                     disabled={rollbackLoading}
                   >
-                    Rollback
+                    {en.deploymentTable.rollback}
                   </Button>
                 ) : (
                   sourceDeploymentName !== DEPLOYMENT_NAMES.PRODUCTION && (
                     isPromoted(pkg) ? (
                       <Typography variant="body2" color="textSecondary">
-                        Already Promoted
+                        {en.deploymentTable.alreadyPromoted}
                       </Typography>
                     ) : (
                       <Button
@@ -92,7 +93,7 @@ export const DeploymentTable = ({ packages, onRowClick, appName, sourceDeploymen
                         })}
                         disabled={promoteLoading}
                       >
-                        Promote
+                        {en.deploymentTable.promote}
                       </Button>
                     )
                   )
