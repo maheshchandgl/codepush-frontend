@@ -10,6 +10,7 @@ import {
 import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewPushDialog } from '../components';
 import { DEPLOYMENT_NAMES } from '../constants';
 import { toast } from 'react-toastify';
+import en from '../../public/en.json';
 
 interface Deployment {
   name: string;
@@ -157,7 +158,7 @@ const AppDetails: React.FC = () => {
           onClick={handleOpenCodePushDialog}
           sx={{ marginTop: 2 }}
         >
-          Generate New CodePush
+           {en.appDetails.generateNewCodePush}
         </Button>
         <NewPushDialog
           open={codePushDialogOpen}

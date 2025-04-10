@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -9,12 +9,18 @@ import {
   Typography,
   Slider,
 } from '@mui/material';
+import en from '../../public/en.json';
 
-export const NewPushDialog = ({ open, onClose }) => {
+interface NewPushDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export const NewPushDialog: FC<NewPushDialogProps> = ({ open, onClose }) => {
   const [appVersion, setAppVersion] = useState('');
   const [rollout, setRollout] = useState(0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('CodePush Form Submitted:', { appVersion, rollout });
     onClose();
@@ -47,7 +53,7 @@ export const NewPushDialog = ({ open, onClose }) => {
             Cancel
           </Button>
           <Button type="submit" color="primary">
-            Start CodePush
+            {en.appDetails.generateNewCodePush}
           </Button>
         </DialogActions>
       </form>
