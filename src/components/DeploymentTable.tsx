@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { usePromoteDeployment } from '../hooks/usePromoteDeployment';
 import { useRollbackDeployment } from '../hooks/useRollbackDeployment';
-import { Package, PromoteDeploymentRequest } from '../types';
+import { Package } from '../types';
 import { RELEASE_METHODS, DEPLOYMENT_NAMES } from '../constants';
 import en from '../../public/en.json';
 

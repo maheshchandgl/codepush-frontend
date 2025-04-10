@@ -60,3 +60,22 @@ export const rollbackDeployment = async (
     label,
   });
 };
+
+/**
+ * Deletes the deployment history for a specific app and deployment.
+ * @param appName - The name of the app.
+ * @param deploymentName - The name of the deployment.
+ * @returns A promise that resolves when the operation is complete.
+ */
+export const deleteDeploymentHistory = async (
+  appName: string,
+  deploymentName: string
+): Promise<void> => {
+  try {
+    const url = `/apps/${appName}/deployments/${deploymentName}/history`;
+    await apiClient.delete(url);
+  } catch (error) {
+    console.error('Failed to delete deployment history:', error);
+    throw error;
+  }
+};

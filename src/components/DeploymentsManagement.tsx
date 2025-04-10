@@ -4,7 +4,9 @@ import {
   createDeployment,
   deleteDeployment,
   renameDeployment,
+  deleteDeploymentHistory,
 } from '../services/api/deploymentsApi';
+import { toast } from 'react-toastify';
 
 interface Deployment {
   name: string;
@@ -46,13 +48,30 @@ export const DeploymentsManagement: React.FC<DeploymentsManagementProps> = ({ ap
     loadDeployments();
   };
 
+  const handleDeleteHistory = async (deploymentName: string) => {
+    if (!window.confirm(`Are you sure you want to delete the history for deployment "${deploymentName}"?`)) {
+      return;
+    }
+
+    try {
+      await deleteDeploymentHistory(appName, deploymentName);
+      toast.success(`History for deployment "${deploymentName}" deleted successfully!`);
+      loadDeployments(); // Refresh the deployments list
+    } catch (error) {
+      toast.error(`Failed to delete history for deployment "${deploymentName}".`);
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h2>Deployments Management</h2>
       <ul>
         {deployments.map((deployment) => (
           <li key={deployment.name}>
-            {deployment.name} <button onClick={() => handleDeleteDeployment(deployment.name)}>Delete</button>
+            {deployment.name}
+            <button onClick={() => handleDeleteHistory(deployment.name)}>Delete History</button>
+            <button onClick={() => handleDeleteDeployment(deployment.name)}>Delete</button>
           </li>
         ))}
       </ul>

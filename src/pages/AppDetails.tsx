@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchDeployments } from '../services';
+import { deleteDeploymentHistory, fetchDeployments } from '../services';
 import {
   Box,
   Typography,
@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewPushDialog } from '../components';
 import { DEPLOYMENT_NAMES } from '../constants';
+import { toast } from 'react-toastify';
 
 interface Deployment {
   name: string;
@@ -93,6 +94,19 @@ const AppDetails: React.FC = () => {
   const handleCloseCodePushDialog = () => {
     setCodePushDialogOpen(false);
   };
+  const handleDeleteHistory = async (deploymentName: string) => {
+    if (!window.confirm('Are you sure you want to delete the deployment history?')) {
+      return;
+    }
+
+    try {
+      await deleteDeploymentHistory(appName, deploymentName);
+      toast.success('Deployment history deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete deployment history.');
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -118,6 +132,15 @@ const AppDetails: React.FC = () => {
             <Typography variant="subtitle2">Key: {selectedDeployment.key}</Typography>
             <Typography variant="subtitle2">Created Time: {new Date(selectedDeployment.createdTime).toLocaleString()}</Typography>
             <Divider sx={{ marginY: 2 }} />
+            <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleDeleteHistory(selectedDeployment.name)}
+                >
+                  Delete History
+                </Button>
+            <Divider sx={{ marginY: 2 }} />
+
             <Typography variant="subtitle1">Package History:</Typography>
             <DeploymentTable
               packages={selectedDeployment.packageHistory}
