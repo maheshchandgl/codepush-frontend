@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { GenericListItemContent } from './GenericListItemContent';
 import { AppsManagementProps } from '../types';
+import { toast } from 'react-toastify';
 
 interface App {
   name: string;
@@ -30,23 +31,37 @@ export const AppsManagement = ({ onAppClick }: AppsManagementProps) => {
   }, []);
 
   const handleCreateApp = async () => {
-    await createApp(newApp.name, newApp.os, newApp.platform);
-    setNewApp({ name: '', os: '', platform: '' });
-    const response = await fetchApps();
-    setApps(response.apps); // Update the state with the 'apps' array
+    try {
+      await createApp(newApp.name, newApp.os, newApp.platform); // Pass false for manuallyProvisionDeployments
+      setNewApp({ name: '', os: '', platform: '' });
+      const response = await fetchApps();
+      setApps(response.apps); // Update the state with the 'apps' array
+      toast.success('App created successfully!');
+    } catch (error) {
+      if (error.response?.status === 409) {
+        toast.error(`An app named '${newApp.name}' already exists.`);
+      } else {
+        toast.error('Failed to create app. Please try again.');
+      }
+      console.error(error);
+    }
   };
 
   const handleDeleteApp = async (appName: string) => {
-    await deleteApp(appName);
-    const response = await fetchApps();
-    setApps(response.apps); // Update the state with the 'apps' array
+    try {
+      await deleteApp(appName);
+      const response = await fetchApps();
+      setApps(response.apps); // Update the state with the 'apps' array
+      toast.success('App deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete app. Please try again.');
+      console.error(error);
+    }
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h4" gutterBottom>
-        Apps
-      </Typography>
+    <Box>
+      <Typography variant="h4">Apps Management</Typography>
       <List>
         {apps.map((app) => (
           <ListItemButton key={app.name} onClick={() => onAppClick(app.name)}>
