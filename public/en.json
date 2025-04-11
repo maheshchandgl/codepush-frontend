@@ -15,5 +15,8 @@
     "appDetails": "App Details",
     "deployments": "Deployments",
     "generateNewCodePush": "Generate New CodePush"
+  },
+  "common": {
+    "cancel": "Cancel"
   }
 }

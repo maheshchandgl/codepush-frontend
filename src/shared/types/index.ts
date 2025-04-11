@@ -29,28 +29,33 @@ export type App = {
 
 export type ApiResponse<T> = {
   success: boolean;
-  data: T;
+  deployments: T; // Update to reflect the correct structure of the API response
   message?: string;
 };
 
-export type Deployment = {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  packageInfo?: Package;
-};
+export interface Deployment {
+  id: string; // Unique identifier for the deployment
+  name: string; // Name of the deployment
+  appId: string; // Associated app ID
+  createdTime: number; // Timestamp of when the deployment was created
+  key: string; // Deployment key
+  package?: Package; // Optional package
+  packageHistory: Package[]; // Add packageHistory
+}
 
 export interface Package {
-  id: string;
-  name: string;
-  version: string;
-  description?: string;
+  description: string;
+  isDisabled: boolean;
   isMandatory: boolean;
   rollout: number;
+  appVersion: string;
   packageHash: string;
-  createdAt: string;
-  updatedAt: string;
+  blobUrl: string;
+  size: number;
+  manifestBlobUrl: string;
+  releaseMethod: string;
+  uploadTime: number;
+  label: string;
 }
 
 export interface UpdateDeploymentRequest {

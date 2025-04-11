@@ -79,3 +79,23 @@ export const deleteDeploymentHistory = async (
     throw error;
   }
 };
+
+export const releaseReact = async (
+  appName: string,
+  deploymentName: string,
+  platform: string,
+  description: string,
+  targetBinaryVersion: string,
+  rollout: number
+): Promise<ApiResponse<void>> => {
+  const response = await apiClient.post(
+    `/apps/${appName}/deployments/${deploymentName}/release-react`,
+    {
+      platform,
+      description,
+      targetBinaryVersion,
+      rollout,
+    }
+  );
+  return response.data;
+};

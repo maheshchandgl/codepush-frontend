@@ -1,26 +1,3 @@
-export interface Deployment {
-  name: string;
-  key: string;
-  createdTime: number;
-  package: Package;
-  packageHistory: Package[];
-}
-
-export interface Package {
-  description: string;
-  isDisabled: boolean;
-  isMandatory: boolean;
-  rollout: number;
-  appVersion: string;
-  packageHash: string;
-  blobUrl: string;
-  size: number;
-  manifestBlobUrl: string;
-  releaseMethod: string;
-  uploadTime: number;
-  label: string;
-}
-
 export interface ApiResponse<T> {
   data: T;
   message?: string;
