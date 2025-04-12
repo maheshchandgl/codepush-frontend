@@ -44,8 +44,7 @@ export const promoteDeployment = async (
   targetDeploymentName: string,
   payload: object
 ): Promise<void> => {
-  await apiClient.post(`/apps/${appName}/deployments/${sourceDeploymentName}/promote`, {
-    targetDeploymentName,
+  await apiClient.post(`/apps/${appName}/deployments/${sourceDeploymentName}/promote/${targetDeploymentName}`, {
     ...payload,
   });
 };
