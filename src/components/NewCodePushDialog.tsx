@@ -21,7 +21,7 @@ enum DeploymentPlatform {
   Staging = 'Staging',
 }
 
-interface NewPushDialogProps {
+interface NewCodePushDialogProps {
   open: boolean;
   onClose: () => void;
   appName: string;
@@ -29,7 +29,7 @@ interface NewPushDialogProps {
   platform: string;
 }
 
-export const NewPushDialog: FC<NewPushDialogProps> = ({ open, onClose, appName, deploymentName, platform }) => {
+export const NewCodePushDialog: FC<NewCodePushDialogProps> = ({ open, onClose, appName, deploymentName, platform }) => {
   const [appVersion, setAppVersion] = useState('');
   const [rollout, setRollout] = useState(0);
   const [description, setDescription] = useState('');

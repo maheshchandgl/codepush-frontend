@@ -7,7 +7,7 @@ import {
   Divider,
   Button,
 } from '@mui/material';
-import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewPushDialog } from '../components';
+import { AppBar, DeploymentToggle, DeploymentTable, UpdateCodePushDialog, NewCodePushDialog } from '../components';
 import { DEPLOYMENT_NAMES } from '../constants';
 import { toast } from 'react-toastify';
 import en from '../../public/en.json';
@@ -156,7 +156,7 @@ const AppDetails: React.FC = () => {
         >
            {en.appDetails.generateNewCodePush}
         </Button>
-        <NewPushDialog
+        <NewCodePushDialog
           open={codePushDialogOpen}
           onClose={handleCloseCodePushDialog}
           appName={appName || ''} // Ensure appName is a string

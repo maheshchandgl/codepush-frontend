@@ -9,4 +9,4 @@ export { GenericListItemContent } from './GenericListItemContent';
 export { GitHubLoginButton } from './GitHubLoginButton';
 export { UsersManagement } from './UsersManagement';
 export { UpdateCodePushDialog } from './UpdateCodePushDialog';
-export { NewPushDialog } from './NewPushDialog';
+export { NewCodePushDialog } from './NewCodePushDialog';
