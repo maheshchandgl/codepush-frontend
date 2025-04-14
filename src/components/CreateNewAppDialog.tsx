@@ -15,20 +15,29 @@ interface CreateNewAppDialogProps {
   open: boolean;
   onClose: () => void;
 }
+interface App {
+  name: string;
+  os: string;
+  platform: string;
+}
 
 export const CreateNewAppDialog: FC<CreateNewAppDialogProps> = ({ open, onClose }) => {
-  const [appName, setAppName] = useState('');
-  const [appDescription, setAppDescription] = useState('');
+  const [newApp, setNewApp] = useState<App>({ name: '', os: '', platform: '' });
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      await createApp(appName, appDescription);
+      await createApp(newApp.name, newApp.os, newApp.platform); // Pass false for manuallyProvisionDeployments
+      setNewApp({ name: '', os: '', platform: '' });
       toast.success('App created successfully!');
-      onClose();
     } catch (error) {
-      toast.error('Failed to create app. Please try again.');
+      if (error.response?.status === 409) {
+        toast.error(`An app named '${newApp.name}' already exists.`);
+      } else {
+        toast.error('Failed to create app. Please try again.');
+      }
       console.error(error);
     }
   };
@@ -39,19 +48,28 @@ export const CreateNewAppDialog: FC<CreateNewAppDialogProps> = ({ open, onClose 
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <TextField
-            label="App Name"
+            label="Name"
+            variant="outlined"
             fullWidth
             margin="normal"
-            value={appName}
-            onChange={(e) => setAppName(e.target.value)}
-            required
+            value={newApp.name}
+            onChange={(e) => setNewApp({ ...newApp, name: e.target.value })}
           />
           <TextField
-            label="App Description"
+            label="OS"
+            variant="outlined"
             fullWidth
             margin="normal"
-            value={appDescription}
-            onChange={(e) => setAppDescription(e.target.value)}
+            value={newApp.os}
+            onChange={(e) => setNewApp({ ...newApp, os: e.target.value })}
+          />
+          <TextField
+            label="Platform"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newApp.platform}
+            onChange={(e) => setNewApp({ ...newApp, platform: e.target.value })}
           />
         </DialogContent>
         <DialogActions>

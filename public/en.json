@@ -18,5 +18,8 @@
   },
   "common": {
     "cancel": "Cancel"
+  },
+  "appsManagement":{
+    "createNewApp": "Create New App"
   }
 }
